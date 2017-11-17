@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+<body>
+<div class="container" style="padding-top:30px;" id="app">
+    <button type="button" class="btn btn-primary" v-on:click="add">add</button>
+    <table class="table">
+        <caption>To Do List</caption>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>username</th>
+            <th>password</th>
+            <th>action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item,index) in list">
+            <th scope="row">{{index+1}}</th>
+            <td>{{item.username}}</td>
+            <td>{{item.password}}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm"  v-on:click="edit(item.ID)">Edit</button>
+                <button type="button" class="btn btn-danger btn-sm" v-on:click="delete_fn(item.ID)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{mode}} fileds</h4>
+                </div>
+                <form v-on:submit.prevent="validateBeforeSubmit">
+                    <div class="modal-body">
+                        <div class="form-group" v-bind:class="{'has-error':errors.has('username')}">
+                            <label for="username">User Name</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your user name" v-model="username" v-validate="'required|min:3'">
+                            <span class="help-block" v-show="errors.has('username')">{{errors.first('username')}}</span>
+                        </div>
+                        <div class="form-group" v-bind:class="{'has-error':errors.has('password')}">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password" name="password" placeholder="password" v-model="password" v-validate="'required|min:3'">
+                            <span class="help-block" v-show="errors.has('password')">{{errors.first('password')}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"  v-on:click="modal_close">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal end-->
+</div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/curl.bundle.js"></script>
+</html>
